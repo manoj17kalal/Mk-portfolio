@@ -179,15 +179,23 @@ nav {
 .hamburger {
     display: none;
     cursor: pointer;
+    z-index: 1001; /* Ensure it's above other elements */
+    position: relative;
+    padding: 15px; /* Even larger touch target */
+    background: transparent;
+    border: none;
+    outline: none;
+    margin-right: -15px; /* Offset the padding */
 }
 
 .hamburger span {
     display: block;
     width: 25px;
     height: 3px;
-    background-color: var(--text-color);
+    background-color: var(--primary-color); /* Use primary color for better visibility */
     margin: 5px 0;
     transition: var(--transition);
+    border-radius: 3px; /* Rounded edges */
 }
 
 /* Hero Section */
@@ -605,22 +613,52 @@ footer {
 }
 
 @media (max-width: 768px) {
+    /* Overlay for mobile menu */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+    }
+    
+    body.menu-open::before {
+        opacity: 1;
+        visibility: visible;
+    }
+    
     .nav-links {
         position: fixed;
         top: 70px;
         left: -100%;
-        width: 100%;
+        width: 80%; /* Reduced width for better UX */
         height: calc(100vh - 70px);
         background-color: white;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         transition: var(--transition);
-        z-index: 999;
+        z-index: 1000;
+        gap: 20px; /* Increase spacing between nav items */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 0 10px 10px 0; /* Rounded corners on right side */
     }
     
     .nav-links.active {
         left: 0;
+    }
+    
+    .nav-links a {
+        font-size: 1.2rem; /* Larger text for better touch targets */
+        padding: 10px 20px; /* Larger touch area */
+        width: 100%;
+        text-align: center;
     }
     
     .hamburger {
@@ -629,14 +667,17 @@ footer {
     
     .hamburger.active span:nth-child(1) {
         transform: rotate(45deg) translate(5px, 6px);
+        background-color: var(--accent-color);
     }
     
     .hamburger.active span:nth-child(2) {
         opacity: 0;
+        transform: translateX(-20px);
     }
     
     .hamburger.active span:nth-child(3) {
         transform: rotate(-45deg) translate(5px, -6px);
+        background-color: var(--accent-color);
     }
     
     .projects-grid,
